@@ -16,7 +16,7 @@ import { getAbout, getClients, getServices } from "@/lib/content";
 import { buildMetadata } from "@/content/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: `${SITE.name} | ${SITE.city} Sosyal Medya ve Dijital Strateji Uzmanı`,
+  title: `${SITE.name} | Sosyal Medya ve Dijital Strateji Uzmanı`,
   description: SITE.subline,
   path: "/",
 });

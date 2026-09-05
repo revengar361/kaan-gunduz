@@ -34,7 +34,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   ...buildMetadata({
-    title: `${SITE.name} | ${SITE.city} Sosyal Medya ve Dijital Strateji Uzmanı`,
+    title: `${SITE.name} | Sosyal Medya ve Dijital Strateji Uzmanı`,
     description: SITE.subline,
     path: "/",
   }),

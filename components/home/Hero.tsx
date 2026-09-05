@@ -36,11 +36,7 @@ export default function Hero() {
 
         <div className="shell relative flex h-full flex-col justify-between py-24 md:py-28">
           <div className="flex items-start justify-between gap-8">
-            <p className="t-label max-w-[22ch]">
-              {SITE.city}
-              <br />
-              Türkiye
-            </p>
+            <p className="t-label max-w-[22ch]">Türkiye</p>
             <p className="t-label hidden text-right md:block">
               Sosyal Medya
               <br />
