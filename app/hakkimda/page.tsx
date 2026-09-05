@@ -4,7 +4,7 @@ import Link from "next/link";
 import PageHeader from "@/components/ui/PageHeader";
 import PortraitBlock from "@/components/about/PortraitBlock";
 import Reveal from "@/components/ui/Reveal";
-import { ABOUT } from "@/content/about";
+import { getAbout } from "@/lib/content";
 import { SITE, CTA } from "@/content/site";
 import { buildMetadata } from "@/content/seo";
 import { graph, personSchema, breadcrumbSchema } from "@/lib/jsonld";
@@ -16,7 +16,12 @@ export const metadata: Metadata = buildMetadata({
   path: "/hakkimda",
 });
 
-export default function AboutPage() {
+// Studio edits appear on the live site within this many seconds.
+export const revalidate = 60;
+
+export default async function AboutPage() {
+  const ABOUT = await getAbout();
+
   const schema = graph(
     personSchema(),
     breadcrumbSchema([
@@ -46,7 +51,7 @@ export default function AboutPage() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Reveal>
-              <PortraitBlock src="/portrait/kaan-gunduz.jpg" />
+              <PortraitBlock src={ABOUT.portraitUrl ?? "/portrait/kaan-gunduz.jpg"} />
             </Reveal>
           </div>
 

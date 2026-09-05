@@ -11,8 +11,8 @@ import VisibilityMap from "@/components/services/VisibilityMap";
 import Reveal from "@/components/ui/Reveal";
 
 import { SITE } from "@/content/site";
-import { ABOUT } from "@/content/about";
-import { CLIENTS, ROSTER_INSIGHT } from "@/content/clients";
+import { ROSTER_INSIGHT } from "@/content/clients";
+import { getAbout, getClients, getServices } from "@/lib/content";
 import { buildMetadata } from "@/content/seo";
 
 export const metadata: Metadata = buildMetadata({
@@ -21,7 +21,14 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-export default function HomePage() {
+// Studio edits appear on the live site within this many seconds.
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const ABOUT = await getAbout();
+  const CLIENTS = await getClients();
+  const SERVICES = await getServices();
+
   return (
     <>
       {/* 01 — THE DIGITAL FIELD */}
@@ -68,7 +75,7 @@ export default function HomePage() {
       <MethodSequence />
 
       {/* 04 — WHAT HE DOES */}
-      <ServicesIndex />
+      <ServicesIndex services={SERVICES} />
 
       {/* 05 — SOCIAL MEDIA SYSTEM */}
       <FeedSystem />

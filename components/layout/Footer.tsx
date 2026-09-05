@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { SITE, NAV, CTA } from "@/content/site";
-import { SERVICE_PAGES } from "@/content/services";
+import { getServicePages } from "@/lib/content";
 
-export default function Footer() {
+export default async function Footer() {
+  const SERVICE_PAGES = await getServicePages();
   const year = new Date().getFullYear();
 
   return (

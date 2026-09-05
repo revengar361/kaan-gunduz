@@ -17,6 +17,14 @@ Before launch, set `NEXT_PUBLIC_SITE_URL` in `.env.local` to the real domain —
 
 ---
 
+## Admin panel
+
+**[`SETUP-ADMIN.md`](SETUP-ADMIN.md)** — the CMS at `/studio`: what it manages, and the five-minute setup. Content and incoming leads live in one Sanity project, so there is one login rather than two systems.
+
+The integration is **optional by construction**: pages read through `lib/content.ts`, which falls back to the TypeScript files in `content/` whenever Sanity is unconfigured or a query fails. A CMS outage degrades the site to its shipped content instead of taking it down.
+
+---
+
 ## The one thing to read first
 
 **[`OPEN-QUESTIONS.md`](OPEN-QUESTIONS.md)** — everything the site needs from Kaan before it goes live. Highest priority is a confirmed phone number and email; nothing unverified was published.
@@ -68,11 +76,12 @@ app/                      Routes (App Router)
   sss/                    FAQ (drives FAQPage schema)
   iletisim/               5-step project intake
   gizlilik/ kvkk/         Legal
-  api/iletisim/           Form handler (validates + emails via Resend)
+  api/iletisim/           Form handler (saves lead + emails via Resend)
+  studio/[[...tool]]/     Sanity Studio — the admin panel
   sitemap.ts robots.ts not-found.tsx
 
 components/
-  three/                  DigitalField (GLSL particles), HeroCanvas, StaticField
+  three/                  MetalWave (GLSL surface), HeroCanvas, StaticField
   home/                   Hero, MethodSequence, ServicesIndex, FeedSystem,
                           WhySequence, FinalHero
   services/               ServiceMetaphor (11 SVG scenes), VisibilityMap
@@ -85,7 +94,9 @@ components/
 content/                  All copy, separated from components
   site.ts services.ts clients.ts about.ts faq.ts seo.ts
 
-lib/                      jsonld.ts, device-tier.ts
+lib/                      jsonld.ts, device-tier.ts, content.ts (CMS + fallback)
+sanity/                   env, client, schemas, Studio structure
+scripts/                  sanity-migrate.ts (one-time content import)
 
 research/                 identity-verification, sources, media-coverage,
                           awards, clients, timeline, social-presence,
@@ -93,7 +104,7 @@ research/                 identity-verification, sources, media-coverage,
 design/                   brand-direction, motion-system, page-visual-manifest
 ```
 
-**19 routes, all statically prerendered** except the form endpoint.
+**20 routes.** Content pages revalidate every 60s so Studio edits appear without a redeploy; the rest are fully static. The form endpoint and the Studio are dynamic.
 
 > **Removed at the client's request:** the portfolio (`/portfoy` and its eight case studies), the blog (`/blog`) and the press page (`/medya`). The research behind them is preserved in `research/` — `clients.md` still holds the verified per-brand record, and `media-coverage.md` the press verification — so any of them can be rebuilt from source if wanted.
 

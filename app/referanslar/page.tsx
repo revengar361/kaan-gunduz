@@ -4,7 +4,8 @@ import Link from "next/link";
 import PageHeader from "@/components/ui/PageHeader";
 import BrandLogo from "@/components/portfolio/BrandLogo";
 import Reveal from "@/components/ui/Reveal";
-import { CLIENTS, ROSTER_INSIGHT } from "@/content/clients";
+import { ROSTER_INSIGHT } from "@/content/clients";
+import { getClients } from "@/lib/content";
 import { buildMetadata } from "@/content/seo";
 import { graph, breadcrumbSchema } from "@/lib/jsonld";
 
@@ -23,7 +24,12 @@ export const metadata: Metadata = buildMetadata({
  * then. Tiles link to the brand's own public profile where one is known;
  * otherwise they are plain, non-interactive cards.
  */
-export default function ReferencesPage() {
+// Studio edits appear on the live site within this many seconds.
+export const revalidate = 60;
+
+export default async function ReferencesPage() {
+  const CLIENTS = await getClients();
+
   const schema = graph(
     breadcrumbSchema([
       { name: "Ana Sayfa", path: "/" },

@@ -4,7 +4,7 @@ import Link from "next/link";
 import PageHeader from "@/components/ui/PageHeader";
 import ServiceMetaphor from "@/components/services/ServiceMetaphor";
 import Reveal from "@/components/ui/Reveal";
-import { SERVICES, SERVICE_PAGES } from "@/content/services";
+import { getServices, getServicePages } from "@/lib/content";
 import { buildMetadata } from "@/content/seo";
 import { graph, breadcrumbSchema, localBusinessSchema } from "@/lib/jsonld";
 
@@ -15,9 +15,15 @@ export const metadata: Metadata = buildMetadata({
   path: "/hizmetler",
 });
 
-export default function ServicesPage() {
+// Studio edits appear on the live site within this many seconds.
+export const revalidate = 60;
+
+export default async function ServicesPage() {
+  const SERVICES = await getServices();
+  const SERVICE_PAGES = await getServicePages();
+
   const schema = graph(
-    localBusinessSchema(),
+    localBusinessSchema(SERVICE_PAGES),
     breadcrumbSchema([
       { name: "Ana Sayfa", path: "/" },
       { name: "Hizmetler", path: "/hizmetler" },

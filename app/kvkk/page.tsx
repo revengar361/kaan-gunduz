@@ -38,7 +38,8 @@ const SECTIONS = [
   {
     title: "Aktarım",
     body: [
-      "Kişisel verileriniz üçüncü kişilere, yurt içine veya yurt dışına aktarılmamaktadır. Yalnızca yasal olarak yetkili kamu kurumlarının talebi hâlinde, mevzuatın öngördüğü ölçüde paylaşım yapılabilir.",
+      "Kişisel verileriniz pazarlama amacıyla üçüncü taraflarla paylaşılmaz ve satılmaz. Ancak iletişim formunun çalışabilmesi için sınırlı sayıda hizmet sağlayıcı veri işleyen sıfatıyla görev alır: talebin iletilmesi için e-posta altyapısı ve talebin kaydedilmesi için içerik yönetim altyapısı. Bu sağlayıcıların sunucuları yurt dışında bulunabilir; veriler yalnızca talebinize dönüş yapılabilmesi amacıyla ve bu amaçla sınırlı olarak işlenir.",
+      "Bunun dışında, yalnızca yasal olarak yetkili kamu kurumlarının talebi hâlinde, mevzuatın öngördüğü ölçüde paylaşım yapılabilir.",
     ],
   },
   {

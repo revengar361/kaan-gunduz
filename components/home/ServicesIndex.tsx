@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { SERVICES } from "@/content/services";
+import type { Service } from "@/content/services";
 import ServiceMetaphor from "@/components/services/ServiceMetaphor";
 
 /**
@@ -10,9 +10,9 @@ import ServiceMetaphor from "@/components/services/ServiceMetaphor";
  * service's metaphor in the sticky panel — the list is the interface, so
  * nothing is hidden behind cards.
  */
-export default function ServicesIndex() {
+export default function ServicesIndex({ services }: { services: Service[] }) {
   const [active, setActive] = useState(0);
-  const current = SERVICES[active];
+  const current = services[active];
 
   return (
     <section className="shell border-t border-ink-line py-20 md:py-24">
@@ -34,7 +34,7 @@ export default function ServicesIndex() {
 
       <div className="grid gap-12 lg:grid-cols-12">
         <ul className="lg:col-span-7">
-          {SERVICES.map((s, i) => {
+          {services.map((s, i) => {
             const href = s.slug ? `/hizmetler/${s.slug}` : `/hizmetler/${s.parent}`;
             return (
               <li key={s.index}>

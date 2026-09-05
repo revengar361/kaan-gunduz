@@ -21,7 +21,7 @@ const SECTIONS = [
     title: "Verilerin kullanım amacı",
     body: [
       "İlettiğiniz bilgiler yalnızca talebinize dönüş yapmak ve olası bir çalışma kapsamını değerlendirmek amacıyla kullanılır.",
-      "Bilgileriniz pazarlama listesine eklenmez, satılmaz ve üçüncü taraflarla paylaşılmaz.",
+      "Bilgileriniz pazarlama listesine eklenmez ve satılmaz. Formun çalışması için e-posta gönderim ve kayıt altyapısı kullanılır; bu sağlayıcılar verilerinizi yalnızca bu hizmeti sunmak için işler.",
     ],
   },
   {

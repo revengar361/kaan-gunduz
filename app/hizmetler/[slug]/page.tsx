@@ -5,12 +5,16 @@ import { notFound } from "next/navigation";
 import PageHeader from "@/components/ui/PageHeader";
 import ServiceMetaphor from "@/components/services/ServiceMetaphor";
 import Reveal from "@/components/ui/Reveal";
-import { SERVICES, SERVICE_PAGES, getService } from "@/content/services";
+import { getServices, getServicePages, getService } from "@/lib/content";
 import { buildMetadata } from "@/content/seo";
 import { graph, serviceSchema, breadcrumbSchema } from "@/lib/jsonld";
 
-export function generateStaticParams() {
-  return SERVICE_PAGES.map((s) => ({ slug: s.slug }));
+// Studio edits appear on the live site within this many seconds.
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const pages = await getServicePages();
+  return pages.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +23,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getService(slug);
   if (!service) return {};
 
   return buildMetadata({
@@ -36,11 +40,13 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = getService(slug);
+  const service = await getService(slug);
   if (!service) notFound();
 
-  const related = SERVICES.filter((s) => s.parent === slug);
-  const others = SERVICE_PAGES.filter((s) => s.slug !== slug).slice(0, 3);
+  const allServices = await getServices();
+  const servicePages = await getServicePages();
+  const related = allServices.filter((s) => s.parent === slug);
+  const others = servicePages.filter((s) => s.slug !== slug).slice(0, 3);
 
   const schema = graph(
     serviceSchema({ title: service.title, short: service.short, slug }),

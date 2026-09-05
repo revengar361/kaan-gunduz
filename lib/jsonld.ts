@@ -2,6 +2,10 @@ import { SITE } from "@/content/site";
 import { SERVICE_PAGES } from "@/content/services";
 import { FAQ } from "@/content/faq";
 
+/** Minimal shapes these builders need, so live CMS data can be passed in. */
+type ServiceLike = { title: string; short: string; slug: string };
+type FaqLike = { q: string; a: string };
+
 const ID = {
   person: `${SITE.url}/#person`,
   business: `${SITE.url}/#business`,
@@ -41,7 +45,7 @@ export function personSchema() {
   };
 }
 
-export function localBusinessSchema() {
+export function localBusinessSchema(services: readonly ServiceLike[] = SERVICE_PAGES) {
   return {
     "@type": "ProfessionalService",
     "@id": ID.business,
@@ -64,7 +68,7 @@ export function localBusinessSchema() {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Dijital Hizmetler",
-      itemListElement: SERVICE_PAGES.map((s) => ({
+      itemListElement: services.map((s) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
@@ -88,10 +92,10 @@ export function websiteSchema() {
   };
 }
 
-export function faqSchema() {
+export function faqSchema(faq: readonly FaqLike[] = FAQ) {
   return {
     "@type": "FAQPage",
-    mainEntity: FAQ.map((f) => ({
+    mainEntity: faq.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },

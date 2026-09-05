@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import PageHeader from "@/components/ui/PageHeader";
-import { FAQ } from "@/content/faq";
+import { getFaq } from "@/lib/content";
 import { buildMetadata } from "@/content/seo";
 import { graph, faqSchema, breadcrumbSchema } from "@/lib/jsonld";
 
@@ -13,9 +13,14 @@ export const metadata: Metadata = buildMetadata({
   path: "/sss",
 });
 
-export default function FaqPage() {
+// Studio edits appear on the live site within this many seconds.
+export const revalidate = 60;
+
+export default async function FaqPage() {
+  const FAQ = await getFaq();
+
   const schema = graph(
-    faqSchema(),
+    faqSchema(FAQ),
     breadcrumbSchema([
       { name: "Ana Sayfa", path: "/" },
       { name: "SSS", path: "/sss" },

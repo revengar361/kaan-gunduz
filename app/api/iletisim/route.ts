@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { writeClient } from "@/sanity/client";
 
 /**
  * Contact intake handler.
@@ -178,31 +179,42 @@ export async function POST(request: Request) {
   const destination = process.env.CONTACT_TO_EMAIL;
   const apiKey = process.env.RESEND_API_KEY;
 
-  if (!destination || !apiKey) {
-    if (process.env.NODE_ENV === "production") {
-      console.error(
-        "[iletisim] CONTACT_TO_EMAIL veya RESEND_API_KEY tanımlı değil; talep teslim edilmedi.",
-        clean
-      );
-      return NextResponse.json(
-        { error: "Form alıcısı yapılandırılmamış. Lütfen Instagram üzerinden ulaşın." },
-        { status: 503 }
-      );
+  // The lead is stored FIRST. Storage is the durable record that shows up in
+  // the admin panel; email is a notification on top of it. If the order were
+  // reversed, an email outage would lose the enquiry entirely.
+  let stored = false;
+  if (writeClient) {
+    try {
+      await writeClient.create({ _type: "lead", status: "new", ...clean });
+      stored = true;
+    } catch (error) {
+      console.error("[iletisim] Talep panele kaydedilemedi:", error, clean);
     }
-    console.info("[iletisim] Yeni talep (geliştirme modu, e-posta gönderilmedi):", clean);
+  }
+
+  let emailed = false;
+  if (destination && apiKey) {
+    try {
+      await sendViaResend(clean, destination, apiKey);
+      emailed = true;
+    } catch (error) {
+      console.error("[iletisim] E-posta gönderilemedi:", error, clean);
+    }
+  }
+
+  if (stored || emailed) {
+    return NextResponse.json({ ok: true, stored, emailed });
+  }
+
+  // Nothing captured it anywhere.
+  if (process.env.NODE_ENV !== "production") {
+    console.info("[iletisim] Yeni talep (geliştirme modu, hiçbir kanal yapılandırılmadı):", clean);
     return NextResponse.json({ ok: true, mode: "development" });
   }
 
-  try {
-    await sendViaResend(clean, destination, apiKey);
-  } catch (error) {
-    // The submission is logged so a delivery outage never loses a lead outright.
-    console.error("[iletisim] E-posta gönderilemedi:", error, clean);
-    return NextResponse.json(
-      { error: "Mesaj gönderilemedi. Lütfen Instagram üzerinden ulaşın." },
-      { status: 502 }
-    );
-  }
-
-  return NextResponse.json({ ok: true });
+  console.error("[iletisim] Talep hiçbir kanala ulaştırılamadı.", clean);
+  return NextResponse.json(
+    { error: "Mesaj gönderilemedi. Lütfen Instagram üzerinden ulaşın." },
+    { status: 502 }
+  );
 }
