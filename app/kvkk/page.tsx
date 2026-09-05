@@ -78,10 +78,6 @@ export default function KvkkPage() {
               </div>
             ))}
 
-            <p className="mt-14 border-t border-ink-line pt-6 text-xs text-graphite">
-              Bu metin bilgilendirme amaçlıdır ve hukuki danışmanlık yerine geçmez. Yayına
-              alınmadan önce bir hukuk danışmanı tarafından gözden geçirilmesi önerilir.
-            </p>
           </div>
         </div>
       </section>
