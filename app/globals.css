@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* ============================================================
+   KAAN GÜNDÜZ — DESIGN TOKENS
+   Graphite / off-white / one controlled accent.
+   See design/brand-direction.md
+   ============================================================ */
+
+@theme {
+  --color-ink: #080809;
+  --color-ink-raised: #101013;
+  --color-ink-line: #1e1e23;
+  /* Text-carrying muted tone. Set to clear WCAG AA (4.5:1) for small text on
+     BOTH --color-ink (5.01:1) and --color-ink-raised (4.76:1); the original
+     #4a4a52 measured 2.28:1 and failed even the large-text threshold.
+     Decorative SVG strokes keep the darker literal #4a4a52 in their own
+     components, so this token now governs text only. */
+  --color-graphite: #7f7e8b;
+  --color-bone: #f4f2ee;
+  --color-bone-dim: #8b8a86;
+  --color-signal: #ff4d1c;
+  --color-signal-deep: #c23410;
+
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-micro: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --shell: clamp(1.25rem, 5vw, 5rem);
+}
+
+* {
+  border-color: var(--color-ink-line);
+}
+
+html {
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-ink);
+}
+
+/* Focus: always visible, never removed. */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Typography scale ---------- */
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  font-size: clamp(2.75rem, 10.5vw, 10.5rem);
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-size: clamp(2.25rem, 6.5vw, 5.5rem);
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.75rem, 4.2vw, 3.5rem);
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+}
+
+.t-lead {
+  font-size: clamp(1.05rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
+  color: var(--color-bone-dim);
+}
+
+.t-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-bone-dim);
+}
+
+.t-index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-graphite);
+}
+
+/* ---------- Layout ---------- */
+
+.shell {
+  padding-inline: var(--shell);
+  margin-inline: auto;
+  max-width: 110rem;
+}
+
+.rule {
+  height: 1px;
+  background: var(--color-ink-line);
+}
+
+/* ---------- Motion primitives ---------- */
+
+/* Elements start hidden ONLY when JS + motion are available.
+   The .is-ready class is added by the client after hydration, so
+   no-JS users and reduced-motion users always see final state. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.motion-ok .reveal:not(.revealed) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+html.motion-ok .reveal {
+  transition:
+    opacity 0.75s var(--ease-expo),
+    transform 0.75s var(--ease-expo);
+}
+
+html.motion-ok .reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Frame watchdog fallback (see components/ui/MotionFlag.tsx).
+   When the document never paints, transitions report as running but their
+   clock never advances, stranding mid-transition elements at opacity 0.
+   Killing transitions makes every element snap to its current target — which
+   is always the resolved, readable state. */
+html.motion-stalled *,
+html.motion-stalled *::before,
+html.motion-stalled *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+html.motion-stalled .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* SCAN transition: hairline sweep */
+@keyframes scan-sweep {
+  0% { transform: scaleX(0); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+  51% { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+.scan-line {
+  animation: scan-sweep 1.4s var(--ease-expo) forwards;
+}
+
+@keyframes pulse-node {
+  0%, 100% { opacity: 0.25; r: 3; }
+  50% { opacity: 1; r: 4.5; }
+}
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-x 38s linear infinite;
+}
+
+/* ---------- Reduced motion: a first-class design, not a degradation ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  html.motion-ok .reveal:not(.revealed) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* ---------- Utilities ---------- */
+
+.hairline-grid {
+  background-image:
+    linear-gradient(to right, var(--color-ink-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-ink-line) 1px, transparent 1px);
+  background-size: 5rem 5rem;
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  background: var(--color-signal);
+  color: var(--color-ink);
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  left: 0;
+}

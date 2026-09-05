@@ -1,0 +1,93 @@
+{
+  "_comment": "Media register. verified = identity + existence confirmed. primarySource = subject's own channel or publisher of record. Tier C items are retained with verified:false so future evidence can promote them; they are NOT rendered on the site.",
+  "researchDate": "2026-09-04",
+  "tiers": {
+    "A": "Local press - independent, corroborates identity. Rendered on /medya.",
+    "B": "PR-style placement - real URL, promotional copy. Rendered separately and labelled.",
+    "C": "Claimed in brief, not found. Not rendered."
+  },
+  "items": [
+    {
+      "tier": "A",
+      "title": "Ceyhan'lı Sosyal Medya Uzmanı Kaan Gündüz'den Yeni Mekan Tanıtım Sayfası",
+      "publisher": "Ceyhan Gazetesi",
+      "date": "2024",
+      "url": "",
+      "type": "NEWS",
+      "summary": "Ceyhan yerel basını, Kaan Gündüz'ün ilçedeki mekanlar için hazırladığı tanıtım sayfası çalışmasını haberleştirdi.",
+      "verified": true,
+      "primarySource": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "tier": "A",
+      "title": "Genç Girişimci Kaan Gündüz'den Yerel İşletmelere Dijital Destek",
+      "publisher": "Ceyhun Haber",
+      "date": "2026-02",
+      "url": "",
+      "type": "PROFILE",
+      "summary": "Yerel işletmelerin dijital görünürlük çalışmalarına verdiği destek üzerine hazırlanan profil haberi.",
+      "verified": true,
+      "primarySource": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "tier": "A",
+      "title": "Köy Okullarında Sosyal Medyayı Dikkatli Kullanım Seminerleri",
+      "publisher": "Ceyhan'da Son Dakika",
+      "date": "2026-05-15",
+      "url": "",
+      "type": "VIDEO",
+      "summary": "Kaan Gündüz'ün köy okullarında gönüllü olarak düzenlediği bilinçli sosyal medya kullanımı seminerlerini konu alan video haber.",
+      "verified": true,
+      "primarySource": false,
+      "confidence": "MEDIUM"
+    },
+    {
+      "tier": "B",
+      "title": "Kaan Gündüz: Adana'dan Dijital Dünyada Büyüyen Bir Kariyer",
+      "publisher": "Time Turks",
+      "date": "",
+      "url": "https://timeturks.com/",
+      "type": "PROFILE",
+      "summary": "Adana merkezli dijital pazarlama çalışmalarını konu alan tanıtım içerikli profil yazısı.",
+      "verified": true,
+      "primarySource": false,
+      "confidence": "LOW",
+      "note": "Promotional/syndicated. Language not reproduced."
+    },
+    {
+      "tier": "B",
+      "title": "Kaan Gündüz: Sosyal Medyanın Gücünü Etkin Kullanan Bir İsim",
+      "publisher": "Basın Haberleri",
+      "date": "",
+      "url": "https://basinhaberleri.com/",
+      "type": "PROFILE",
+      "summary": "Sosyal medya çalışmalarını konu alan basın bülteni kaynaklı içerik.",
+      "verified": true,
+      "primarySource": false,
+      "confidence": "LOW",
+      "note": "Sole source of the 2004 birth-year claim, which is not published."
+    },
+    {
+      "tier": "B",
+      "title": "Kaan Gündüz Sosyal Medyada İzi Değil, Yolu Olan Bir İsim",
+      "publisher": "Evos Angels",
+      "date": "",
+      "url": "https://evosangels.com/",
+      "type": "PROFILE",
+      "summary": "Dijital çalışmaları üzerine hazırlanan tanıtım içerikli yazı.",
+      "verified": true,
+      "primarySource": false,
+      "confidence": "LOW",
+      "note": "Contains an unverifiable worldwide-collaboration claim. Not reproduced."
+    },
+    { "tier": "C", "title": "", "publisher": "Sözcü Dijital", "date": "", "url": "", "type": "MENTION", "summary": "Briefte iddia edildi, doğrulanamadı.", "verified": false, "primarySource": false, "confidence": "NONE" },
+    { "tier": "C", "title": "", "publisher": "Haber Birgün", "date": "", "url": "", "type": "MENTION", "summary": "Briefte iddia edildi, doğrulanamadı.", "verified": false, "primarySource": false, "confidence": "NONE" },
+    { "tier": "C", "title": "", "publisher": "MOOD Magazin", "date": "", "url": "", "type": "MENTION", "summary": "Site-scoped arama sıfır sonuç verdi.", "verified": false, "primarySource": false, "confidence": "NONE" },
+    { "tier": "C", "title": "", "publisher": "Magazin Times", "date": "", "url": "", "type": "MENTION", "summary": "Site-scoped arama sıfır sonuç verdi.", "verified": false, "primarySource": false, "confidence": "NONE" },
+    { "tier": "C", "title": "", "publisher": "Ajans Cep", "date": "", "url": "", "type": "MENTION", "summary": "Site-scoped arama sıfır sonuç verdi.", "verified": false, "primarySource": false, "confidence": "NONE" },
+    { "tier": "C", "title": "", "publisher": "Cine5 Magazin", "date": "", "url": "", "type": "MENTION", "summary": "Briefte iddia edildi, doğrulanamadı.", "verified": false, "primarySource": false, "confidence": "NONE" },
+    { "tier": "C", "title": "", "publisher": "Türkiye'nin Sesi", "date": "", "url": "", "type": "MENTION", "summary": "Briefte iddia edildi, doğrulanamadı.", "verified": false, "primarySource": false, "confidence": "NONE" }
+  ]
+}
