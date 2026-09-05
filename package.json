@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cms:migrate": "node --env-file=.env.local --experimental-strip-types scripts/sanity-migrate.ts"
+    "cms:migrate": "node --env-file=.env.local --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/sanity-migrate.mts"
   },
   "dependencies": {
     "@react-three/drei": "10.7.6",
