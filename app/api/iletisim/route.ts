@@ -183,6 +183,7 @@ export async function POST(request: Request) {
   // the admin panel; email is a notification on top of it. If the order were
   // reversed, an email outage would lose the enquiry entirely.
   let stored = false;
+  const sanityConfigured = Boolean(writeClient);
   if (writeClient) {
     try {
       await writeClient.create({ _type: "lead", status: "new", ...clean });
@@ -190,9 +191,12 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error("[iletisim] Talep panele kaydedilemedi:", error, clean);
     }
+  } else {
+    console.warn("[iletisim] SANITY_API_WRITE_TOKEN yok; talep panele kaydedilemiyor.");
   }
 
   let emailed = false;
+  const emailConfigured = Boolean(destination && apiKey);
   if (destination && apiKey) {
     try {
       await sendViaResend(clean, destination, apiKey);
@@ -200,21 +204,40 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error("[iletisim] E-posta gönderilemedi:", error, clean);
     }
+  } else {
+    console.warn("[iletisim] CONTACT_TO_EMAIL / RESEND_API_KEY yok; e-posta gönderilemiyor.");
   }
 
   if (stored || emailed) {
     return NextResponse.json({ ok: true, stored, emailed });
   }
 
-  // Nothing captured it anywhere.
   if (process.env.NODE_ENV !== "production") {
     console.info("[iletisim] Yeni talep (geliştirme modu, hiçbir kanal yapılandırılmadı):", clean);
     return NextResponse.json({ ok: true, mode: "development" });
   }
 
-  console.error("[iletisim] Talep hiçbir kanala ulaştırılamadı.", clean);
+  /*
+   * Nothing captured it. The two causes need completely different fixes, so
+   * the response distinguishes them:
+   *
+   *   not-configured   -> environment variables are missing in the host
+   *   delivery-failed  -> variables exist but the token or the provider rejected us
+   *
+   * Neither value leaks a secret; both save an hour of guessing.
+   */
+  const reason =
+    !sanityConfigured && !emailConfigured ? "not-configured" : "delivery-failed";
+
+  console.error(
+    `[iletisim] Talep hiçbir kanala ulaştırılamadı (${reason}). ` +
+      `Sanity yazma: ${sanityConfigured ? "yapılandırıldı" : "YOK"}, ` +
+      `e-posta: ${emailConfigured ? "yapılandırıldı" : "YOK"}.`,
+    clean
+  );
+
   return NextResponse.json(
-    { error: "Mesaj gönderilemedi. Lütfen Instagram üzerinden ulaşın." },
+    { error: "Mesaj gönderilemedi. Lütfen Instagram üzerinden ulaşın.", reason },
     { status: 502 }
   );
 }
