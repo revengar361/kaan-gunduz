@@ -39,7 +39,7 @@ const SECTIONS = [
   {
     title: "Dış bağlantılar",
     body: [
-      "Sitede Instagram, Facebook, LinkedIn gibi platformlara ve bazı haber kaynaklarına bağlantılar bulunmaktadır. Bu sitelerin gizlilik uygulamalarından sorumlu değiliz.",
+      "Sitede Instagram, Facebook ve LinkedIn gibi platformlara bağlantılar bulunmaktadır. Bu sitelerin gizlilik uygulamalarından sorumlu değiliz.",
     ],
   },
   {

@@ -47,7 +47,6 @@ export default async function ReferencesPage() {
       <PageHeader
         eyebrow="Referanslar"
         title={ROSTER_INSIGHT.headline}
-        lead="Aşağıdaki işletmelerin sektör, konum ve kanal bilgileri kamuya açık kaynaklardan doğrulanmıştır."
         crumbs={[
           { name: "Ana Sayfa", path: "/" },
           { name: "Referanslar", path: "/referanslar" },

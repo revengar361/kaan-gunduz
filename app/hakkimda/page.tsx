@@ -120,10 +120,6 @@ export default async function AboutPage() {
         <div className="mb-14">
           <p className="t-label mb-4">Yol</p>
           <h2 className="t-h1 max-w-[16ch]">Meraktan sisteme.</h2>
-          <p className="t-lead mt-6 max-w-[58ch]">
-            Aşağıdaki bölümler tarih değil, çalışma biçimindeki değişimi anlatır. Doğrulanmamış
-            tarih yayınlamamayı tercih ediyorum.
-          </p>
         </div>
 
         <ol className="relative border-l border-ink-line pl-8 md:pl-14">
